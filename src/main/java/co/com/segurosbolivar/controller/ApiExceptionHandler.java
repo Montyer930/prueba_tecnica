@@ -1,0 +1,3 @@
+package co.com.segurosbolivar.controller;
+import co.com.segurosbolivar.service.BusinessException; import org.springframework.http.*; import org.springframework.web.bind.annotation.*; import java.util.*;
+@RestControllerAdvice public class ApiExceptionHandler { @ExceptionHandler(BusinessException.class) ResponseEntity<Map<String,String>> business(BusinessException e){return ResponseEntity.status(e.getStatus()).body(Map.of("error",e.getMessage()));} @ExceptionHandler(IllegalArgumentException.class) ResponseEntity<Map<String,String>> invalid(IllegalArgumentException e){return ResponseEntity.badRequest().body(Map.of("error","Parámetro inválido"));} }

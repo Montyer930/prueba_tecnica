@@ -1,0 +1,3 @@
+package co.com.segurosbolivar.controller;
+import org.slf4j.*; import org.springframework.http.*; import org.springframework.web.bind.annotation.*; import jakarta.validation.constraints.*;
+@RestController @RequestMapping("/core-mock") public class CoreMockController { private static final Logger log=LoggerFactory.getLogger(CoreMockController.class); @PostMapping("/evento") public ResponseEntity<Void> evento(@RequestBody Evento request){log.info("Intento de envío al CORE: evento={}, polizaId={}",request.evento(),request.polizaId());return ResponseEntity.accepted().build();} public record Evento(@NotBlank String evento,@NotNull Long polizaId){} }

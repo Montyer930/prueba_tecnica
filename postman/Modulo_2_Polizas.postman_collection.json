@@ -1,0 +1,68 @@
+{
+  "info": {
+    "name": "Módulo 2 - API Gestión de Pólizas",
+    "description": "Colección para probar la API Spring Boot de gestión de pólizas.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "apiKey", "value": "123456" },
+    { "key": "polizaId", "value": "555" },
+    { "key": "riesgoId", "value": "1" }
+  ],
+  "item": [
+    {
+      "name": "Pólizas",
+      "item": [
+        {
+          "name": "Listar pólizas",
+          "request": { "method": "GET", "header": [], "url": { "raw": "{{baseUrl}}/polizas", "host": ["{{baseUrl}}"], "path": ["polizas"] } }
+        },
+        {
+          "name": "Filtrar pólizas colectivas activas",
+          "request": { "method": "GET", "header": [], "url": { "raw": "{{baseUrl}}/polizas?tipo=COLECTIVA&estado=ACTIVA", "host": ["{{baseUrl}}"], "path": ["polizas"], "query": [{"key":"tipo","value":"COLECTIVA"},{"key":"estado","value":"ACTIVA"}] } }
+        },
+        {
+          "name": "Consultar riesgos",
+          "request": { "method": "GET", "header": [], "url": { "raw": "{{baseUrl}}/polizas/{{polizaId}}/riesgos", "host": ["{{baseUrl}}"], "path": ["polizas","{{polizaId}}","riesgos"] } }
+        },
+        {
+          "name": "Renovar póliza",
+          "request": { "method": "POST", "header": [], "url": { "raw": "{{baseUrl}}/polizas/{{polizaId}}/renovar", "host": ["{{baseUrl}}"], "path": ["polizas","{{polizaId}}","renovar"] } }
+        },
+        {
+          "name": "Cancelar póliza",
+          "request": { "method": "POST", "header": [], "url": { "raw": "{{baseUrl}}/polizas/{{polizaId}}/cancelar", "host": ["{{baseUrl}}"], "path": ["polizas","{{polizaId}}","cancelar"] } }
+        },
+        {
+          "name": "Agregar riesgo",
+          "request": { "method": "POST", "header": [], "url": { "raw": "{{baseUrl}}/polizas/{{polizaId}}/riesgos", "host": ["{{baseUrl}}"], "path": ["polizas","{{polizaId}}","riesgos"] } }
+        }
+      ]
+    },
+    {
+      "name": "Riesgos",
+      "item": [
+        {
+          "name": "Cancelar riesgo",
+          "request": { "method": "POST", "header": [], "url": { "raw": "{{baseUrl}}/riesgos/{{riesgoId}}/cancelar", "host": ["{{baseUrl}}"], "path": ["riesgos","{{riesgoId}}","cancelar"] } }
+        }
+      ]
+    },
+    {
+      "name": "CORE Mock",
+      "item": [
+        {
+          "name": "Enviar evento al CORE",
+          "request": { "method": "POST", "header": [{"key":"Content-Type","value":"application/json"}], "body": {"mode":"raw","raw":"{\n  \"evento\": \"ACTUALIZACION\",\n  \"polizaId\": 555\n}"}, "url": { "raw": "{{baseUrl}}/core-mock/evento", "host": ["{{baseUrl}}"], "path": ["core-mock","evento"] } }
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": { "type": "text/javascript", "exec": ["pm.request.headers.upsert({ key: 'x-api-key', value: pm.collectionVariables.get('apiKey') });"] }
+    }
+  ]
+}
